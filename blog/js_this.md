@@ -55,9 +55,9 @@
 ### 第一次测试
   我们在日常工作中，直接调用myObject对象的方法`printThis`和`printThisWithLambda`，可以看到第一次打印的内容是`myObject`这个对象，因为`printThis`的调用者是myObject；第二次打印的内容是`window`，因为`printThisWithLambda`在声明时没有在任何函数体内，他的声明是由window直接调用的
 ### 第二次测试
-  除了JavaScript原生的方法外，还会用到很多的供应商（vendors），供应商往往都会提供一些方法，他们接收一个回调函数（callback）作为参数，通过在供应商内执行回调函数，来实现供应商强大的可拓展性。为了模拟这种情况，在下面的测试中定义了一个名为`vendors`的对象，该对象有一个`acceptCallback`的方法，该方法接收一个函数作为参数，并且在方法体内时执行该参数。在第二次测试中，将myObject对象的printThis方法和printThisWithLambda，作为参数传递给vendors的一个方法`acceptCallback`，可以看到两次打印的均为window——这是因为在acceptCallback函数内部，参数是直接通过`callback()`直接执行的，并没有作为任何对象的方法，而是直接被window调用的；而通过lambda表达式声明的函数，其内部的this一直为window对象。
+  除了JavaScript原生的方法外，还会用到很多的供应商（vendors），供应商往往都会提供一些方法，他们接收一个回调函数（callback）作为参数，供应商将执行的中间结果作为参数传递给回调函数，用户可以在自己的程序中操作这些参数，从而实现更加强大的功能。为了模拟这种情况，在下面的测试中定义了一个名为`vendors`的对象，该对象有一个`acceptCallback`的方法，该方法接收一个函数作为参数，并且在方法体内时执行该参数。在第二次测试中，将myObject对象的printThis方法和printThisWithLambda，作为参数传递给vendors的一个方法`acceptCallback`，可以看到两次打印的均为window——这是因为在acceptCallback函数内部，参数是直接通过`callback()`直接执行的，并没有作为任何对象的方法，而是直接被window调用的；而通过lambda表达式声明的函数，其内部的this一直为window对象。
 ### 第三次测试
-  有些供应商内，会暂时把这个回调函数作为供应商内通用对象的一个属性存储起来，并且通过成员表达式调用这个函数。在第三次测试中，为`vendor`对象定义了方法`storeCallbackAndCallLater`，可以看到第一次打印的对象为`vendor`，第二次打印的对象为`window`——这是因为在供应商内部调用时，该回调函数是作为供应商的成员方法被引用的，而通过lambda表达式声明的函数，其内部的this一直为window对象。
+  有些供应商内，会暂时把这个回调函数作为供应商内通用对象的一个属性存储起来，在其他地方调用这个函数。在第三次测试中，为`vendor`对象定义了方法`storeCallbackAndCallLater`，可以看到第一次打印的对象为`vendor`，第二次打印的对象为`window`——这是因为在供应商内部调用时，该回调函数是作为供应商的成员方法被引用的，而通过lambda表达式声明的函数，其内部的this一直为window对象。
 ### 第四次测试
   this的指向的不确定性，会在实际工作中造成很多麻烦，因此在JS标准的不断完善过程中提出了bind方法。通过bind方法可以生成一个绑定函数（bounding function），调用绑定函数时会在函数内部调用原函数。在第四次测试中，通过`acceptCallback`函数调用绑定函数`myObject.printThis.bind(specifiedThis)`和`myObject.printThisWithLambda.bind(specifiedThis)`，可以看到第一次打印的对象为`specifiedThis`，第二次打印的对象为`window`——这验证了bind可以改变函数内this的指向，而并不会改变lambda表达式定义的函数内的this指向。
 
