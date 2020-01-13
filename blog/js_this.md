@@ -2,13 +2,16 @@
 
 ## 先给出结论
 使用function声明的函数，函数中的this指向函数执行时的调用者；使用lamda表达式声明的函数，函数中的this指向函数声明时的调用者。
+
 ## 一些术语解释(glossary)
   - 回调函数(callback)：一个函数作为参数传递给另一个函数，那么这个作为参数被传递的函数就被称为回调函数。
   - 供应商（vendor）：在前端软件编写过程中，我们会用到一些依赖（dependency），这些依赖也需要被打包到正式环境中，一般会合并到一个名为vendors的js文件中，表示这是由其他软件公司提供的代码，而不是本公司自己生产的
   - bind方法：在JavaScript中Function的原型链上有一个名为bind的方法，用于绑定函数内的this对象。假设定义了一个函数a，那在同一个上下文内可以通过`var b = a.bind(object)`定义一个变量b，该变量也为一个函数，b与a的区别是，b不管作为谁的成员调用，其内部的this都会指向bind时指定的对象`object`
+  
 ## 通过一段代码来说明
 下面用四组测试，解释函数的四个最常用的使用场景中的this指向问题
-```javascript
+
+``` javascript
  var myObject = {
     name:'myObject',
     printThis: function() {
@@ -47,6 +50,7 @@
   vendor.acceptCallback(myObject.printThis.bind(specifiedThis)) //specifiedThis
   vendor.acceptCallback(myObject.printThisWithLambda.bind(specifiedThis)) //window
 ```
+
 在这次测试中首先定义了一个对象myObject，其中包含两个函数，一个函数`printThis`直接通过传统的funciton方式声明，另一个函数`printThisWithLamda`通过lamda表达式声明
 ### 第一次测试
   我们在日常工作中，直接调用myObject对象的方法`printThis`和`printThisWithLambda`，可以看到第一次打印的内容是`myObject`这个对象，因为`printThis`的调用者是myObject；第二次打印的内容是`window`，因为`printThisWithLambda`在声明时没有在任何函数体内，他的声明是由window直接调用的
@@ -61,5 +65,6 @@
 ## 参考
 1.  [MDN Scope](https://developer.mozilla.org/en-US/docs/Glossary/Scope)
 2.  [Function.prototype.bind()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
+
 ## Words
 glossary: 术语表
