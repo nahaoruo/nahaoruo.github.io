@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>nahaoruo's blog</title>
+</head>
+<body>
+<p>下面创建一个a标签用于下载，并且把它放在button标签的内部借用按钮的样式</p>
+<button>
+  <a download="quirk_ie-a_cannot_download_in_button.html" href="./quirk_ie-a_cannot_download_in_button.html" style="width: 100%; height: 100%; display: block;">下载</a>
+</button>
+<p>结果是这个按钮在大多数浏览器下都能下载，但在IE浏览器下点击这个按钮就无法下载</p>
+<p>解决办法是，改为下面的按钮，使用block模仿按钮的样式</p>
+<a download="quirk_ie-a_cannot_download_in_button.html" href="./quirk_ie-a_cannot_download_in_button.html" style="width: 40px; height: 20px; text-align: center; font-size: 14px; background-color: #efefef; border: 1px solid #333; display: block;">下载</a>
+<p>原因就只是a标签放在了button标签内部！</p>
+<p>在使用架构提供的组件el-button时，为了借用他的样式，就将a标签放在了el-button内，从而产生了这样的问题:(</p>
+</body>
+</html>
